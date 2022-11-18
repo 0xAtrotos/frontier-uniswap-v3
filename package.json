@@ -1,12 +1,12 @@
 {
   "name": "uniswap-v3-subgraph",
   "version": "1.0.0",
-  "repository": "https://github.com/revert-finance/uniswap-v3-subgraph",
+  "repository": "https://github.com/0xatrotos/frontier-uniswap-v3",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "codegen": "graph codegen --output-dir src/types/",
     "build": "graph build",
-    "deploy": "graph deploy --product hosted-service revert-finance/uniswap-v3-mainnet"
+    "deploy": "graph deploy --product hosted-service --access-token <token> --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ 0xatrotos/frontier-uniswap-v3"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.21.1",

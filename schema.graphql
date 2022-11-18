@@ -135,6 +135,52 @@ type Pool @entity {
   collects: [Collect!]! @derivedFrom(field: "pool")
 }
 
+type Tick @entity {
+  # format: <pool address>#<tick index>
+  id: ID!
+  # pool address
+  poolAddress: String
+  # tick index
+  tickIdx: BigInt!
+  # pointer to pool
+  pool: Pool!
+  # total liquidity pool has as tick lower or upper
+  liquidityGross: BigInt!
+  # how much liquidity changes when tick crossed
+  liquidityNet: BigInt!
+  # calculated price of token0 of tick within this pool - constant
+  price0: BigDecimal!
+  # calculated price of token1 of tick within this pool - constant
+  price1: BigDecimal!
+  # lifetime volume of token0 with this tick in range
+  volumeToken0: BigDecimal!
+  # lifetime volume of token1 with this tick in range
+  volumeToken1: BigDecimal!
+  # lifetime volume in derived USD with this tick in range
+  volumeUSD: BigDecimal!
+  # lifetime volume in untracked USD with this tick in range
+  untrackedVolumeUSD: BigDecimal!
+  # fees in USD
+  feesUSD: BigDecimal!
+  # all time collected fees in token0
+  collectedFeesToken0: BigDecimal!
+  # all time collected fees in token1
+  collectedFeesToken1: BigDecimal!
+  # all time collected fees in USD
+  collectedFeesUSD: BigDecimal!
+  # created time
+  createdAtTimestamp: BigInt!
+  # created block
+  createdAtBlockNumber: BigInt!
+  # Fields used to help derived relationship
+  liquidityProviderCount: BigInt! # used to detect new exchanges
+  # derived fields
+  # swaps: [Swap!]! @derivedFrom(field: "tick")
+  # vars needed for fee computation
+  feeGrowthOutside0X128: BigInt!
+  feeGrowthOutside1X128: BigInt!
+}
+
 type Position @entity {
   # Positions created through NonfungiblePositionManager
   # NFT token id
@@ -148,9 +194,9 @@ type Position @entity {
   # allow indexing by tokens
   token1: Token!
   # lower tick of the position
-  tickLower: BigInt!
+  tickLower: Tick!
   # upper tick of the position
-  tickUpper: BigInt!
+  tickUpper: Tick!
   # total position liquidity
   liquidity: BigInt!
   # amount of token 0 ever deposited to position
